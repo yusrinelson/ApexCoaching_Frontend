@@ -5,7 +5,7 @@ import AppContainer from '../common/AppContainer.vue'
 </script>
 
 <template>
-  <footer class="border-t border-[var(--color-border)] bg-black">
+  <footer class="border-t border-(--color-border) bg-black">
     <AppContainer>
       <div class="grid gap-12 py-16 md:grid-cols-4">
 
@@ -16,17 +16,17 @@ import AppContainer from '../common/AppContainer.vue'
             class="inline-flex items-center gap-2"
           >
             <span
-              class="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-primary)] font-bold text-black"
+              class="flex h-9 w-9 items-center justify-center rounded-full bg-(--color-primary) font-bold text-black"
             >
               A
             </span>
 
-            <span class="text-xl font-bold">
-              APEX.
+            <span class="text-xl font-bold font-display">
+              APEX <span class="text-(--color-primary) -ml-1">.</span>
             </span>
           </RouterLink>
 
-          <p class="mt-5 max-w-md text-sm leading-7 text-[var(--color-text-secondary)]">
+          <p class="mt-5 max-w-md text-sm leading-7 text-(--color-text-secondary)">
             Apex Coaching delivers academy-grade football training
             and coaching resources for ambitious players, parents and clubs.
           </p>
@@ -39,31 +39,31 @@ import AppContainer from '../common/AppContainer.vue'
             Train
           </h3>
 
-          <div class="mt-5 flex flex-col gap-3 text-sm text-[var(--color-text-secondary)]">
+          <div class="font-mono mt-5 flex flex-col gap-3 text-sm text-(-or-text-secondary">
             <RouterLink
               to="/programs/private"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Private Coaching
             </RouterLink>
 
             <RouterLink
               to="/programs/group"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Small Group
             </RouterLink>
 
             <RouterLink
               to="/programs/team"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Team Coaching
             </RouterLink>
 
             <RouterLink
               to="/programs/holiday-clinic"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Holiday Clinic
             </RouterLink>
@@ -77,31 +77,31 @@ import AppContainer from '../common/AppContainer.vue'
             Company
           </h3>
 
-          <div class="mt-5 flex flex-col gap-3 text-sm text-[var(--color-text-secondary)]">
+          <div class="font-mono mt-5 flex flex-col gap-3 text-sm text-[var(--color-text-secondary)]">
             <RouterLink
               to="/about"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               About
             </RouterLink>
 
             <RouterLink
               to="/shop"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Shop Books
             </RouterLink>
 
             <RouterLink
               to="/testimonials"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Testimonials
             </RouterLink>
 
             <RouterLink
               to="/contact"
-              class="transition hover:text-[var(--color-primary)]"
+              class="transition hover:text-(--color-primary)"
             >
               Contact
             </RouterLink>
@@ -127,15 +127,25 @@ import AppContainer from '../common/AppContainer.vue'
           sm:justify-between
         "
       >
-        <p>
+        <p class="font-mono text-xs text-(--color-text-muted)">
           © {{ new Date().getFullYear() }} Apex Coaching. All rights reserved.
         </p>
 
-        <div class="flex gap-5">
+        <!-- <div class="flex gap-5">
           <a href="#" class="hover:text-white">Instagram</a>
           <a href="#" class="hover:text-white">YouTube</a>
           <a href="#" class="hover:text-white">TikTok</a>
-        </div>
+        </div> -->
+
+        <!-- link to dev github -->
+        <a
+          href="https://github.com/yusrinelson"
+          target="_blank"
+          class="hover:text-white"
+        >
+          Designed & Developed by Yusri Nelson
+        </a>
+
       </div>
     </AppContainer>
   </footer>

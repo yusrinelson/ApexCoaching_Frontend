@@ -1,9 +1,10 @@
 @import 'tailwindcss';
+/* @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&display=swap'); */
 
 :root {
-  --font-dsiplay: 'Archivo Black', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-nav: 'JetBrains Mono', monospace;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
   /* =========================
      APEX BRAND COLORS
      ========================= */
@@ -73,7 +74,6 @@
   --container-max-width: 1440px;
   --sidebar-width: 260px;
 }
-
 @layer base {
   html {
     background: var(--color-background);
@@ -109,6 +109,53 @@
   ::selection {
     background: var(--color-primary);
     color: var(--color-text-dark);
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .heading-display {
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .heading-section {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .text-label {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-link {
+    @apply font-mono text-xs font-semibold uppercase tracking-wide text-white/60 transition;
+  }
+
+  .nav-link:hover {
+    color: var(--color-primary);
+  }
+
+  .mobile-nav-link {
+    @apply block border-b border-[var(--color-border)] py-4 font-mono text-sm font-semibold uppercase text-white/80 transition;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-primary);
   }
 }
 

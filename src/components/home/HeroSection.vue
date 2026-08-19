@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 
 import hero from '../../assets/images/hero.jpeg'
+// import hero2 from '../../../public/images/programme2.jpeg'
 import AppContainer from '../common/AppContainer.vue'
 import BaseBadge from '../ui/BaseBadge.vue'
 import BaseButton from '../ui/BaseButton.vue'
@@ -12,7 +13,7 @@ import BaseButton from '../ui/BaseButton.vue'
     <div class="absolute inset-0">
       <img :src="hero" alt="" class="w-full h-full object-cover object-center" />
       <div class="absolute inset-0 bg-black/25" />
-      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent" />
+      <div class="absolute inset-0 bg-linear-to-r from-black via-black/50 to-transparent" />
     </div>
 
     <AppContainer>
@@ -21,13 +22,13 @@ import BaseButton from '../ui/BaseButton.vue'
           <BaseBadge> Apex Coaching · Est. 2024 </BaseBadge>
 
           <h1
-            class="mt-6 max-w-4xl font-(--font-display) text-5xl uppercase leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl italic font-extrabold"
+            class="heading-display mt-6 max-w-3xl text-5xl uppercase sm:text-7xl lg:text-8xl italic"
           >
             Train Like <span class="text-(--color-primary)">the pros.</span>
           </h1>
-          <p>
-            Academy-grade football coaching, holiday clinics and the books used in over 40 coaching
-            environments worldwide. Built for players who refuse to plateau.
+          <p class="max-w-2xl">
+            Apex Coaching helps football players sharpen technical ability, tactical understanding
+            and the confidence to perform when it matters.. Built for players who refuse to plateau.
           </p>
           <div class="mt-8 flex flex-wrap gap-4">
             <BaseButton size="lg">

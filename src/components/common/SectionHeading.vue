@@ -33,20 +33,20 @@ defineProps({
   >
     <p
       v-if="eyebrow"
-      class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)]"
+      class="text-label text-(--color-primary)"
     >
       {{ eyebrow }}
     </p>
 
     <h2
-      class="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
+      class="heading-section my-2 text-2xl uppercase text-white sm:text-3xl lg:text-4xl italic"
     >
       {{ title }}
     </h2>
 
     <p
       v-if="description"
-      class="mt-4 text-sm leading-7 text-[var(--color-text-secondary)] sm:text-base"
+      class="max-w-md text-xs leading-6 text-(--color-text-secondary) sm:text-sm"
     >
       {{ description }}
     </p>

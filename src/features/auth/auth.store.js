@@ -71,6 +71,8 @@ export const useAuthStore = defineStore('auth', {
         await authApi.logout()
       } finally {
         this.user = null
+        this.accessToken = null
+        this.initialized = false
       }
     },
 

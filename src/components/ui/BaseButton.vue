@@ -5,15 +5,13 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'primary',
-    validator: (value) =>
-      ['primary', 'secondary', 'outline', 'ghost', 'danger'].includes(value),
+    validator: (value) => ['primary', 'secondary', 'outline', 'ghost', 'danger'].includes(value),
   },
 
   size: {
     type: String,
     default: 'md',
-    validator: (value) =>
-      ['sm', 'md', 'lg'].includes(value),
+    validator: (value) => ['sm', 'md', 'lg'].includes(value),
   },
 
   type: {
@@ -34,11 +32,9 @@ const props = defineProps({
 
 const variantClasses = computed(() => {
   return {
-    primary:
-      'bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)]',
+    primary: 'bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)]',
 
-    secondary:
-      'bg-white text-black hover:bg-neutral-200',
+    secondary: 'bg-white text-black hover:bg-neutral-200',
 
     outline:
       'border border-[var(--color-border-light)] text-white hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]',
@@ -46,8 +42,7 @@ const variantClasses = computed(() => {
     ghost:
       'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-white',
 
-    danger:
-      'bg-red-500 text-white hover:bg-red-600',
+    danger: 'bg-red-500 text-white hover:bg-red-600',
   }[props.variant]
 })
 
@@ -64,18 +59,7 @@ const sizeClasses = computed(() => {
   <button
     :type="type"
     :disabled="disabled || loading"
-    class="
-      inline-flex
-      items-center
-      justify-center
-      gap-2
-      rounded-full
-      font-semibold
-      transition
-      duration-200
-      disabled:cursor-not-allowed
-      disabled:opacity-50
-    "
+    class="font-mono inline-flex items-center justify-center gap-2 rounded-full font-semibold transition duration-200 disabled:cursor-not-allowed disabled:opacity-50"
     :class="[variantClasses, sizeClasses]"
   >
     <span
@@ -85,8 +69,6 @@ const sizeClasses = computed(() => {
 
     <slot v-if="!loading" />
 
-    <span v-else>
-      Loading...
-    </span>
+    <span v-else> Loading... </span>
   </button>
 </template>

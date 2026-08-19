@@ -1,36 +1,22 @@
 <script setup>
 defineProps({
-  padding: {
+  variant: {
     type: String,
-    default: 'md',
-  },
-
-  hover: {
-    type: Boolean,
-    default: false,
+    default: 'default',
   },
 })
 </script>
 
 <template>
-  <div
-    class="
-      rounded-xl
-      border
-      border-[var(--color-border)]
-      bg-[var(--color-surface)]
-    "
+  <article
     :class="[
-      {
-        'p-4': padding === 'sm',
-        'p-6': padding === 'md',
-        'p-8': padding === 'lg',
-
-        'transition duration-200 hover:-translate-y-0.5 hover:border-[var(--color-border-light)]':
-          hover,
-      },
+      'overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface)]',
+      'transition duration-300',
+      variant === 'interactive'
+        ? 'hover:-translate-y-1 hover:border-[var(--color-primary)]'
+        : '',
     ]"
   >
     <slot />
-  </div>
+  </article>
 </template>

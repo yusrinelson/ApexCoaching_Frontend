@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../auth.store'
 
+import BaseButton from '../../../components/ui/BaseButton.vue'
+
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
@@ -31,80 +33,103 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex bg-gray-900 text-white">
-    <!-- Left section -->
-    <!-- <div
-      class="w-1/2 flex flex-col justify-center items-center bg-gradient-to-r from-gray-800 to-gray-900 p-12"
+  <main
+    class="min-h-screen bg-(--color-background) text-(--color-text-primary) lg:grid lg:grid-cols-2"
+  >
+    <!-- LEFT -->
+    <section
+      class="relative hidden min-h-screen overflow-hidden border-r border-(--color-border) bg-(--color-background-secondary) lg:flex lg:flex-col lg:justify-between"
     >
-      <div class="text-left max-w-md">
-        <div class="flex items-center mb-6">
-          <div
-            class="bg-green-500 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center"
-          >
-            A
-          </div>
-          <span class="ml-2 font-semibold text-lg">APEX.</span>
-        </div>
-
-        <span class="text-green-500 uppercase text-xs tracking-widest font-semibold"
-          >Apex Coaching</span
-        >
-
-        <h1 class="text-4xl font-bold mt-4">
-          Train Smarter.<br />
-          <span class="text-green-500">Play Better.</span>
-        </h1>
-
-        <p class="text-gray-400 mt-4 text-sm">
-          Your Apex account keeps your training plan, session bookings and coaching library in one
-          place.
-        </p>
+      <!-- Decorative APEX text -->
+      <div
+        class="pointer-events-none absolute -bottom-16 -right-16 font-display text-[12rem] uppercase leading-none text-white/[0.025] xl:text-[16rem]"
+      >
+        APEX
       </div>
-    </div> -->
 
-    <div class="bg-linear-to-r from-gray-700 to-gray-900 flex flex-col justify-between w-1/2">
-      <div class="flex items-center p-6">
-        <div
-          class="bg-green-500 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center"
+      <!-- Logo -->
+      <RouterLink to="/" class="relative z-10 flex items-center p-8 gap-2">
+        <span
+          class="flex h-9 w-9 items-center justify-center rounded-full bg-(--color-primary) font-bold text-black"
         >
           A
-        </div>
-        <span class="ml-2 font-semibold text-lg">APEX.</span>
-      </div>
+        </span>
 
-      <div class="p-16">
+        <span class="text-xl font-display font-bold tracking-tight">
+          APEX <span class="text-(--color-primary) -ml-1">.</span>
+        </span>
+      </RouterLink>
+
+      <!-- Brand content -->
+      <div class="relative z-10 px-10 pb-20 xl:px-16">
         <span
-          class="text-green-500 uppercase text-xs tracking-widest font-semibold border border-green-500 rounded-full px-3 py-1"
-          >Apex Coaching</span
+          class="inline-flex border border-(--color-primary) px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-(--color-primary)"
         >
+          Apex Coaching
+        </span>
 
-        <h1 class="text-4xl font-bold mt-4">
-          Train Smarter.<br />
-          <span class="text-green-500">Play Better.</span>
+        <h1
+          class="mt-6 max-w-xl font-display text-5xl uppercase leading-[0.95] text-white xl:text-7xl"
+        >
+          Train Smarter.
+          <br />
+          <span class="text-(--color-primary)"> Play Better. </span>
         </h1>
 
-        <p class="text-gray-400 mt-4 text-sm">
+        <p class="mt-6 max-w-md text-sm leading-7 text-(--color-text-secondary)">
           Your Apex account keeps your training plan, session bookings and coaching library in one
           place.
         </p>
       </div>
-    </div>
-    <!-- Right section -->
-    <div class="w-1/2 flex flex-col justify-center px-16">
-      <div class="max-w-md mx-auto">
-        <div class="flex items-center mb-6">
-          <RouterLink to="/" class="text-gray-400 text-sm hover:text-green-500">← Back to site</RouterLink>
-          <span class="ml-auto bg-green-700 text-xs px-3 py-1 rounded-full">USER ACCOUNT</span>
+    </section>
+
+    <!-- RIGHT  -->
+    <section
+      class="flex min-h-screen items-center justify-center px-6 py-12 sm:px-10 lg:px-12 xl:px-20"
+    >
+      <div class="w-full max-w-md">
+        <div class="mb-10 flex items-center justify-between">
+          <RouterLink
+            to="/"
+            class="font-mono text-xs font-semibold uppercase tracking-wide text-(--color-text-secondary) transition hover:text-(--color-primary)"
+          >
+            ← Back to site
+          </RouterLink>
+
+          <span
+            class="border border-(--color-border) bg-(--color-surface) px-3 py-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-(--color-text-secondary)"
+          >
+            Member Account
+          </span>
         </div>
 
-        <h2 class="text-3xl font-bold mb-2">Welcome back to Apex</h2>
-        <p class="text-gray-400 mb-6 text-sm">
-          Sign in to view your upcoming sessions, training plans and coaching resources.
-        </p>
+        <div class="mb-8">
+          <p
+            class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-(--color-primary)"
+          >
+            Welcome back
+          </p>
 
-        <form @submit.prevent="handleLogin" class="space-y-4">
+          <h2 class="mt-3 font-display text-4xl uppercase leading-none text-white sm:text-5xl">
+            Welcome Back
+            <br />
+            To Apex.
+          </h2>
+
+          <p class="mt-5 text-sm leading-6 text-(--color-text-secondary)">
+            Sign in to view your upcoming sessions, training plans and coaching resources.
+          </p>
+        </div>
+
+        <form @submit.prevent="handleLogin" class="space-y-5">
           <div>
-            <label for="email" class="block text-sm font-semibold mb-1">Email Address</label>
+            <label
+              for="email"
+              class="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wide text-white"
+            >
+              Email Address
+            </label>
+
             <input
               id="email"
               v-model="email"
@@ -112,12 +137,18 @@ const handleLogin = async () => {
               autocomplete="email"
               required
               placeholder="you@example.com"
-              class="w-full bg-gray-800 border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:border-green-500"
+              class="w-full border border-(--color-border) bg-(--color-surface) px-4 py-3 text-sm text-white outline-none placeholder:text-(--color-text-muted) transition focus:border-(--color-primary)"
             />
           </div>
 
           <div>
-            <label for="password" class="block text-sm font-semibold mb-1">Password</label>
+            <label
+              for="password"
+              class="mb-2 block font-mono text-[10px] font-bold uppercase tracking-wide text-white"
+            >
+              Password
+            </label>
+
             <input
               id="password"
               v-model="password"
@@ -125,38 +156,51 @@ const handleLogin = async () => {
               autocomplete="current-password"
               required
               placeholder="••••••••"
-              class="w-full bg-gray-800 border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:border-green-500"
+              class="w-full border border-(--color-border) bg-(--color-surface) px-4 py-3 text-sm text-white outline-none placeholder:text-(--color-text-muted) transition focus:border-(--color-primary)"
             />
           </div>
 
-          <p v-if="errorMessage" class="rounded-lg bg-red-200 px-4 py-2 text-sm text-red-600">
+          <!-- Error -->
+          <p
+            v-if="errorMessage"
+            class="border border-(--color-danger)/30 bg-(--color-danger)/10 px-4 py-3 font-mono text-xs text-(--color-danger)"
+          >
             {{ errorMessage }}
           </p>
 
-          <div class="flex items-center justify-between text-sm">
-            <label class="flex items-center">
-              <input type="checkbox" class="accent-green-500 mr-2" />
+          <div class="flex items-center justify-between gap-4">
+            <label
+              class="flex items-center gap-2 font-mono text-[10px] uppercase text-(--color-text-secondary)"
+            >
+              <input type="checkbox" class="accent-(--color-primary)" />
+
               Remember me
             </label>
-            <a href="#" class="text-green-500 hover:underline">Forgot password?</a>
+
+            <a
+              href="#"
+              class="font-mono text-[10px] font-bold uppercase text-(--color-primary) hover:underline"
+            >
+              Forgot password?
+            </a>
           </div>
 
-          <button
-            type="submit"
-            :disabled="authStore.loading"
-            class="w-full bg-green-500 text-black font-semibold py-2 rounded-full mt-4 hover:bg-green-400 transition"
-          >
-            {{ authStore.loading ? 'Signing in...' : 'Sign in' }}
-          </button>
+          <BaseButton type="submit" :disabled="authStore.loading" class="w-full">
+            {{ authStore.loading ? 'Signing in...' : 'Sign In' }}
+          </BaseButton>
 
-          <p class="text-center text-sm text-gray-400 mt-4">
-            Don’t have an account?
-            <RouterLink to="/register" class="text-green-500 font-semibold hover:underline"
-              >Create one</RouterLink
+          <p class="pt-3 text-center text-xs text-(--color-text-secondary)">
+            Don't have an account?
+
+            <RouterLink
+              to="/register"
+              class="ml-1 font-mono font-bold uppercase text-(--color-primary) hover:underline"
             >
+              Create One
+            </RouterLink>
           </p>
         </form>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
