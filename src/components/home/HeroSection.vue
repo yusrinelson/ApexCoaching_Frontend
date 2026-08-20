@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 import hero from '../../assets/images/hero.jpeg'
 // import hero2 from '../../../public/images/programme2.jpeg'
 import AppContainer from '../common/AppContainer.vue'
-import BaseBadge from '../ui/BaseBadge.vue'
+// import BaseBadge from '../ui/BaseBadge.vue'
 import BaseButton from '../ui/BaseButton.vue'
 </script>
 
@@ -19,7 +19,7 @@ import BaseButton from '../ui/BaseButton.vue'
     <AppContainer>
       <div class="relative flex min-h-[calc(100vh-5rem)] items-center py-20">
         <div class="max-w-4xl">
-          <BaseBadge> Apex Coaching · Est. 2024 </BaseBadge>
+          <!-- <BaseBadge> Apex Coaching · Est. 2024 </BaseBadge> -->
 
           <h1
             class="heading-display mt-6 max-w-3xl text-5xl uppercase sm:text-7xl lg:text-8xl italic"

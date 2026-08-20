@@ -11,7 +11,8 @@ import DashBoardView from '../views/DashboardView.vue'
 import ProgramsView from '../views/ProgramsView.vue'
 import ShopView from '../views/ShopView.vue'
 import AboutView from '../views/AboutView.vue'
-import CartView from '../views/CartView.vue'
+import ContactView from '../views/ContactView.vue'
+import CartView from '../features/cart/views/CartView.vue'
 import ProfileView from '../features/account/views/ProfileView.vue'
 import OrdersView from '../features/account/views/OrdersView.vue'
 
@@ -44,6 +45,11 @@ const router = createRouter({
           name: 'about',
           component: AboutView,
         },
+        {
+          path: 'contact',
+          name: 'contact',
+          component: ContactView,
+        }
       ],
     },
     {
@@ -92,6 +98,9 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       component: CartView,
+      meta: {
+        requiresAuth: true,
+      },
     },
   ],
 })
