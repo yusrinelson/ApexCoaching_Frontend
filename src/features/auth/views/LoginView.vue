@@ -22,7 +22,7 @@ const handleLogin = async () => {
       password: password.value,
     })
 
-    const redirect = route.query.redirect || '/dashboard'
+    const redirect = route.query.redirect || '/'
 
     router.push(redirect)
   } catch (error) {

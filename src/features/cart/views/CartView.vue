@@ -1,16 +1,54 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 
+import {createOrder} from '../../orders/orders.api'
+import { initializePayment } from '../../payments/payments.api'
 import { useCartStore } from '../store/cart.store'
 import { format } from '../../../utils/helper'
 
 import AppContainer from '../../../components/common/AppContainer.vue'
 
 const cartStore = useCartStore()
+const router = useRouter()
 
+const isCheckingOut = ref(false)
 const removingProductId = ref(null)
 const isClearing = ref(false)
 const errorMessage = ref('')
+
+const handleCheckout = async () => {
+  try{
+    isCheckingOut.value = true
+    errorMessage.value = ''
+
+    const orderResponse = await createOrder() //create order from cart
+
+    if(!orderResponse.success){
+      throw new Error(orderResponse.message || 'Unable to checkout. Please try again.')
+    }
+
+    const order = orderResponse.data
+
+    //initialize payment/paystack
+    const paymentResponse = await initializePayment(order._id)
+
+    if(!paymentResponse.success){
+      throw new Error(paymentResponse.message || 'Unable to initialize payment. Please try again.')
+    }
+
+    // redirect to paystck
+    window.location.href = paymentResponse.data.authorization_url
+
+  }catch(error){
+    console.error('CHECKOUT failed:', error)
+
+    toast.error(error.response?.data?.message || 'Unable to checkout. Please try again.')
+
+    isCheckingOut.value = false
+  }
+}
 
 const handleRemove = async (productId) => {
   try {
@@ -228,9 +266,11 @@ onMounted(() => {
 
               <button
                 type="button"
+                :disabled="isCheckingOut"
                 class="w-full bg-(--color-primary) px-5 py-4 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-black transition hover:opacity-90"
+                @click="handleCheckout"
               >
-                Proceed to Checkout
+                {{isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}}
               </button>
 
               <p class="text-center text-[11px] leading-5 text-(--color-text-muted)">

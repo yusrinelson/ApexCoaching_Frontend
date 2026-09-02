@@ -18,14 +18,10 @@ export const createOrder = async () => {
     return response.data
 }
 
-// export const getAdminOrders = async () => {
-//     const response = await apiClient.get('/admin/orders')
+export const cancelOrder = async (orderId) => {
+  const response = await apiClient.patch(
+    `/orders/${orderId}/cancel`
+  )
 
-//     return response.data
-// }
-
-// export const getAdminOrderById = async (id) => {
-//     const response = await apiClient.get(`/admin/orders/${id}`)
-
-//     return response.data
-// }
+  return response.data
+}

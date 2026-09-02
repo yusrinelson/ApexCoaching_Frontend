@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import * as authApi from './auth.api'
+import { initializeCart, useCartStore } from '../cart/store/cart.store'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -22,6 +23,16 @@ export const useAuthStore = defineStore('auth', {
 
         this.user = response.data.user
         this.accessToken = response.data.accessToken
+
+        // Load the user's cart after authentication
+        const cartStore = useCartStore()
+
+        try{
+          await cartStore.loadCart()
+
+        }catch (error) {
+          console.error('Failed to load cart after login:', error)
+        }
 
         return response
       } finally {
@@ -73,6 +84,9 @@ export const useAuthStore = defineStore('auth', {
         this.user = null
         this.accessToken = null
         this.initialized = false
+
+        const cartStore = useCartStore()
+        cartStore.reset()
       }
     },
 
@@ -82,9 +96,11 @@ export const useAuthStore = defineStore('auth', {
       try {
         await this.refreshAccessToken()
         await this.getCurrentUser()
+        await initializeCart()
       } catch {
         this.user = null
         this.accessToken = null
+        useCartStore().reset()
       } finally {
         this.initialized = true
       }

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import PublicLayout from '../layouts/PublicLayout.vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
+import AdminLayout from '../layouts/AdminLayout.vue'
 
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../features/auth/views/LoginView.vue'
@@ -15,7 +16,11 @@ import ContactView from '../views/ContactView.vue'
 import CartView from '../features/cart/views/CartView.vue'
 import ProfileView from '../features/account/views/ProfileView.vue'
 import OrdersView from '../features/account/views/OrdersView.vue'
-
+import PaymentSuccessView from '../features/payments/views/PaymentSuccessView.vue'
+import PaymentFailedView from '../features/payments/views/PaymentFailedView.vue'
+import AdminOrdersView from '../features/orders/views/AdminOrdersView.vue'
+import AdminDashboardView from '../features/orders/views/AdminDashboardView.vue'
+import AdminProductsView from '../features/products/views/AdminProductView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -49,26 +54,8 @@ const router = createRouter({
           path: 'contact',
           name: 'contact',
           component: ContactView,
-        }
-      ],
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: LoginView,
-      meta: {
-        guestOnly: true,
-      },
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: RegisterView,
-      meta: {
-        guestOnly: true,
-      },
-    },
-    {
+        },
+        {
       path: '/dashboard',
       component: DashboardLayout,
       meta: {
@@ -94,10 +81,70 @@ const router = createRouter({
         },
       ],
     },
+      ],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+      meta: {
+        guestOnly: true,
+      },
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView,
+      meta: {
+        guestOnly: true,
+      },
+    },
+    
+    {
+      path: '/admin',
+      component: AdminLayout,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true,
+      },
+      children: [
+        {
+          path: '',
+          name: 'admin',
+          component: AdminDashboardView,
+        },
+        {
+          path: 'products',
+          name: 'admin-products',
+          component: AdminProductsView
+        },
+        {
+          path: 'orders',
+          name: 'admin-orders',
+          component: AdminOrdersView,
+        }
+      ],
+    },
     {
       path: '/cart',
       name: 'cart',
       component: CartView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/payment/success',
+      name: 'payment-success',
+      component: PaymentSuccessView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/payment/failed',
+      name: 'payment-failed',
+      component: PaymentFailedView,
       meta: {
         requiresAuth: true,
       },
@@ -128,6 +175,11 @@ router.beforeEach(async (to) => {
       query: {
         redirect: to.fullPath,
       },
+    }
+
+  if (to.meta.requiresAdmin && authStore.user?.role !== 'admin')
+    return {
+      name: 'dashboard',
     }
 
   if (to.meta.guestOnly && authStore.user)

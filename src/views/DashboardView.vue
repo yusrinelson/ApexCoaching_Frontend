@@ -1,6 +1,8 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useAuthStore } from '../features/auth/auth.store'
+import { getOrders } from '../features/orders/orders.api'
+import { format } from '../utils/helper'
 
 import BaseButton from '../components/ui/BaseButton.vue'
 // import SectionHeading from '../components/common/SectionHeading.vue'
@@ -9,6 +11,42 @@ const authStore = useAuthStore()
 
 const userName = computed(() => {
   return authStore.user?.firstName || 'Player'
+})
+
+const orders = ref([])
+const isLoadingOrders = ref(false)
+const ordersError = ref('')
+
+const paidOrders = computed(() => {
+  return orders.value.filter((order) => order.status === 'paid')
+})
+
+const recentOrders = computed(() => {
+  return orders.value.slice(0, 3)
+})
+
+const loadOrders = async () => {
+  try {
+    isLoadingOrders.value = true
+    ordersError.value = ''
+
+    const response = await getOrders()
+
+    if (response.success) {
+      orders.value = response.data
+    }
+  } catch (error) {
+    console.error('DASHBOARD ORDERS ERROR:', error)
+
+    ordersError.value =
+      error.response?.data?.message || 'Unable to load your orders. Please try again.'
+  } finally {
+    isLoadingOrders.value = false
+  }
+}
+
+onMounted(() => {
+  loadOrders()
 })
 </script>
 
@@ -24,7 +62,7 @@ const userName = computed(() => {
           <h1
             class="font-display text-4xl uppercase leading-none text-white sm:text-5xl lg:text-6xl"
           >
-             Welcome Back,
+            Welcome Back,
             <br />
             {{ userName }}.
           </h1>
@@ -60,9 +98,11 @@ const userName = computed(() => {
           Orders
         </p>
 
-        <p class="mt-4 font-display text-4xl text-white">0</p>
+        <p class="mt-4 font-display text-4xl text-white">{{ orders.length }}</p>
 
-        <p class="mt-2 text-xs text-(--color-text-secondary)">No orders yet</p>
+        <p class="mt-2 text-xs text-(--color-text-secondary)">
+          {{ orders.length === 1 ? '1 order' : `${orders.length} orders` }}
+        </p>
       </div>
 
       <!-- Account -->
@@ -149,7 +189,65 @@ const userName = computed(() => {
           </RouterLink>
         </div>
 
-        <div class="flex min-h-56 items-center justify-center px-6 py-10">
+        <!-- Loading -->
+        <div v-if="isLoadingOrders" class="flex min-h-56 items-center justify-center px-6 py-10">
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.15em] text-(--color-primary)">
+            Loading Orders...
+          </p>
+        </div>
+
+        <!-- Error -->
+        <div v-else-if="ordersError" class="flex min-h-56 items-center justify-center px-6 py-10">
+          <p class="text-center text-xs text-(--color-danger)">
+            {{ ordersError }}
+          </p>
+        </div>
+
+        <!-- Orders -->
+        <div v-else-if="recentOrders.length" class="divide-y divide-(--color-border)">
+          <div v-for="order in recentOrders" :key="order._id" class="px-6 py-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <p
+                  class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-text-muted)"
+                >
+                  {{ format.date(order.createdAt) }}
+                </p>
+
+                <p class="mt-2 truncate font-mono text-xs font-bold text-white">
+                  #{{ order.paymentReference }}
+                </p>
+
+                <p class="mt-2 text-xs text-(--color-text-secondary)">
+                  {{ order.items.length }}
+                  {{ order.items.length === 1 ? 'product' : 'products' }}
+                </p>
+              </div>
+
+              <div class="shrink-0 text-right">
+                <span
+                  class="border px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-widest"
+                  :class="
+                    order.status === 'paid'
+                      ? 'border-(--color-primary) text-(--color-primary)'
+                      : order.status === 'pending'
+                        ? 'border-yellow-500/40 text-yellow-400'
+                        : 'border-red-500/40 text-red-400'
+                  "
+                >
+                  {{ format.status(order.status) }}
+                </span>
+
+                <p class="mt-3 font-mono text-xs font-bold text-white">
+                  {{ format.price(order.totalAmount) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty -->
+        <div v-else class="flex min-h-56 items-center justify-center px-6 py-10">
           <div class="text-center">
             <div
               class="mx-auto flex h-14 w-14 items-center justify-center border border-(--color-border) font-display text-xl text-(--color-text-muted)"

@@ -90,7 +90,22 @@ const handleLogout = async () => {
               Orders
             </RouterLink>
           </div>
+          <div v-if="authStore.user?.role === 'admin'">
+          <p
+            class="font-mono mb-4 text-[10px] font-boldmb-4 tracking-[0.2em] font-bold uppercase text-(--color-text-muted)"
+          >
+            Administration
+          </p>
+          <RouterLink
+              to="/admin"
+              class="block px-3 py-3 font-mono text-xs font-bold uppercase tracking-wide text-(--color-text-secondary) transition hover:bg-(--color-background-secondary) hover:text-(--color-primary)"
+              active-class="bg-(--color-background-secondary) text-(--color-primary)"
+            >
+              Admin Dashboard
+            </RouterLink>
+            </div>
         </nav>
+        
       </aside>
 
       <main class="min-w-0">
