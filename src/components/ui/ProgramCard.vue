@@ -13,7 +13,7 @@ defineProps({
     default: '',
   },
   level: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   price: {
@@ -24,6 +24,10 @@ defineProps({
     type: String,
     default: '',
   },
+  slug: {
+    type: String,
+    required: true,
+  }
 })
 </script>
 
@@ -68,15 +72,15 @@ defineProps({
       <!-- Bottom -->
       <div class="mt-6 flex items-center justify-between border-t border-(--color-border) pt-5">
         <span v-if="price" class="font-mono text-sm font-bold text-white">
-          {{ price }}
+          R{{ price }}
         </span>
 
-        <button
-          type="button"
+        <RouterLink
+        :to="{ name: 'program-detail', params: {slug} }"
           class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-(--color-primary) transition hover:text-white"
         >
-          View Programme →
-        </button>
+          View Program →
+        </RouterLink>
       </div>
     </div>
   </article>

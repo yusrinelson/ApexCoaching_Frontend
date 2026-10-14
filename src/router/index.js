@@ -21,6 +21,9 @@ import PaymentFailedView from '../features/payments/views/PaymentFailedView.vue'
 import AdminOrdersView from '../features/orders/views/AdminOrdersView.vue'
 import AdminDashboardView from '../features/orders/views/AdminDashboardView.vue'
 import AdminProductsView from '../features/products/views/AdminProductView.vue'
+import ProgramDetailView from '../views/ProgramDetailView.vue'
+import EnquiryFormView from '../views/EnquiryFormView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,6 +40,16 @@ const router = createRouter({
           path: 'programs',
           name: 'programs',
           component: ProgramsView,
+        },
+        {
+          path: 'programs/:slug',
+          name: 'program-detail',
+          component: ProgramDetailView,
+        },
+        {
+          path: 'programs/:slug/enquiry',
+          name: 'program-enquiry',
+          component: EnquiryFormView,
         },
 
         {
@@ -55,32 +68,33 @@ const router = createRouter({
           name: 'contact',
           component: ContactView,
         },
+        
         {
-      path: '/dashboard',
-      component: DashboardLayout,
-      meta: {
-        requiresAuth: true,
-      },
+          path: '/dashboard',
+          component: DashboardLayout,
+          meta: {
+            requiresAuth: true,
+          },
 
-      children: [
-        {
-          path: '',
-          name: 'dashboard',
-          component: DashBoardView,
-        },
-        {
-          path: 'profile',
-          name: 'profile',
-          component: ProfileView,
-        },
+          children: [
+            {
+              path: '',
+              name: 'dashboard',
+              component: DashBoardView,
+            },
+            {
+              path: 'profile',
+              name: 'profile',
+              component: ProfileView,
+            },
 
-        {
-          path: 'orders',
-          name: 'orders',
-          component: OrdersView,
+            {
+              path: 'orders',
+              name: 'orders',
+              component: OrdersView,
+            },
+          ],
         },
-      ],
-    },
       ],
     },
     {
@@ -99,7 +113,7 @@ const router = createRouter({
         guestOnly: true,
       },
     },
-    
+
     {
       path: '/admin',
       component: AdminLayout,
@@ -116,13 +130,13 @@ const router = createRouter({
         {
           path: 'products',
           name: 'admin-products',
-          component: AdminProductsView
+          component: AdminProductsView,
         },
         {
           path: 'orders',
           name: 'admin-orders',
           component: AdminOrdersView,
-        }
+        },
       ],
     },
     {

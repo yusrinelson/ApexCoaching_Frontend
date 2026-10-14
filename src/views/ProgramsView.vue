@@ -1,37 +1,60 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+
 import AppContainer from '../components/common/AppContainer.vue'
 import SectionHeading from '../components/common/SectionHeading.vue'
 import ProgramCard from '../components/ui/ProgramCard.vue'
 import BaseButton from '../components/ui/BaseButton.vue'
 
-const programmes = [
-  {
-    title: 'Individual Training',
-    description:
-      'Focused one-on-one football training designed around your weaknesses, strengths and specific development goals.',
-    duration: '60 MIN',
-    level: 'ALL LEVELS',
-    price: 'From R350',
-  },
+import { getPrograms } from '../features/programs/programs.api'
 
-  {
-    title: 'Small Group Training',
-    description:
-      'Train in a competitive environment with focused technical work, decision-making and game-specific exercises.',
-    duration: '90 MIN',
-    level: 'GROUP',
-    price: 'From R250',
-  },
+const programmes = ref([])
+const loading = ref(true)
+const error = ref(null)
 
-  {
-    title: 'Performance Training',
-    description:
-      'High-intensity sessions built for players looking to improve their physical performance and match readiness.',
-    duration: '90 MIN',
-    level: 'ADVANCED',
-    price: 'From R400',
-  },
-]
+const fetchPrograms = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    const response = await getPrograms()
+    programmes.value = response.data.data.programs
+  } catch (err) {
+    console.error('Failed to laod programs:', err)
+    error.value = 'Unable to load training programmes. Please try again.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchPrograms)
+// const programmes = [
+//   {
+//     title: 'Individual Training',
+//     description:
+//       'Focused one-on-one football training designed around your weaknesses, strengths and specific development goals.',
+//     duration: '60 MIN',
+//     level: 'ALL LEVELS',
+//     price: 'From R350',
+//   },
+
+//   {
+//     title: 'Small Group Training',
+//     description:
+//       'Train in a competitive environment with focused technical work, decision-making and game-specific exercises.',
+//     duration: '90 MIN',
+//     level: 'GROUP',
+//     price: 'From R250',
+//   },
+
+//   {
+//     title: 'Performance Training',
+//     description:
+//       'High-intensity sessions built for players looking to improve their physical performance and match readiness.',
+//     duration: '90 MIN',
+//     level: 'ADVANCED',
+//     price: 'From R400',
+//   },
+// ]
 </script>
 
 <template>
@@ -72,16 +95,52 @@ const programmes = [
           description="Choose a training option that matches where you are now and where you want to go."
         />
 
-        <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <ProgramCard
-            v-for="programme in programmes"
-            :key="programme.title"
-            :title="programme.title"
-            :description="programme.description"
-            :duration="programme.duration"
-            :level="programme.level"
-            :price="programme.price"
-          />
+        <div class="mt-14">
+          <!-- Loading -->
+          <div
+            v-if="loading"
+            class="border border-(--color-border) bg-(--color-surface) p-10 text-center"
+          >
+            <p
+              class="font-mono text-xs font-bold uppercase tracking-[0.15em] text-(--color-text-muted)"
+            >
+              Loading programmes...
+            </p>
+          </div>
+
+          <!-- Error -->
+          <div
+            v-else-if="error"
+            class="border border-(--color-border) bg-(--color-surface) p-10 text-center"
+          >
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.15em] text-red-400">
+              {{ error }}
+            </p>
+          </div>
+
+          <!-- Programs -->
+          <div v-else-if="programmes.length" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <ProgramCard
+              v-for="programme in programmes"
+              :key="programme._id"
+              :title="programme.title"
+              :description="programme.shortDescription || programme.description"
+              :duration="programme.sessionDuration"
+              :level="programme.skillLevel"
+              :price="programme.price"
+              :image="programme.coverImage?.url"
+              :slug="programme.slug"
+            />
+          </div>
+
+          <!-- Empty -->
+          <div v-else class="border border-(--color-border) bg-(--color-surface) p-10 text-center">
+            <p
+              class="font-mono text-xs font-bold uppercase tracking-[0.15em] text-(--color-text-muted)"
+            >
+              No programmes available.
+            </p>
+          </div>
         </div>
       </AppContainer>
     </section>
